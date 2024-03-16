@@ -1,6 +1,7 @@
 package main
 
 import (
+	"bytes"
 	"context"
 	"fmt"
 	"log"
@@ -66,16 +67,31 @@ func main() {
 func StartServer() {
 	router := mux.NewRouter()
 
-	router.HandleFunc("/Bensalem", handleOwl).Methods("GET")
-	router.HandleFunc("/Allentown", handleAllentown).Methods("GET")
-	router.HandleFunc("/Hatboro", handleHatboro).Methods("GET")
-	router.HandleFunc("/Houston", handleHouston).Methods("GET")
-	router.HandleFunc("/Lehigh", handleLehigh).Methods("GET")
-	router.HandleFunc("/Montgomery", handleMontgomery).Methods("GET")
-	router.HandleFunc("/MountOlive", handleOlive).Methods("GET")
-	router.HandleFunc("/Seneca", handleSeneca).Methods("GET")
-	router.HandleFunc("/Springside", handleSpringside).Methods("GET")
-	router.HandleFunc("/WarrenHills", handleWarren).Methods("GET")
+	//Functions used for Putting data
+
+	router.HandleFunc("/Bensalem", handleOwl).Methods("PUT")
+	router.HandleFunc("/Allentown", handleAllentown).Methods("PUT")
+	router.HandleFunc("/Hatboro", handleHatboro).Methods("PUT")
+	router.HandleFunc("/Houston", handleHouston).Methods("PUT")
+	router.HandleFunc("/Lehigh", handleLehigh).Methods("PUT")
+	router.HandleFunc("/Montgomery", handleMontgomery).Methods("PUT")
+	router.HandleFunc("/MountOlive", handleOlive).Methods("PUT")
+	router.HandleFunc("/Seneca", handleSeneca).Methods("PUT")
+	router.HandleFunc("/Springside", handleSpringside).Methods("PUT")
+	router.HandleFunc("/WarrenHills", handleWarren).Methods("PUT")
+
+	//Functions used for Getting
+
+	router.HandleFunc("/Bensalem", handleGetOwl).Methods("GET")
+	router.HandleFunc("/Allentown", handleGetAllentown).Methods("GET")
+	router.HandleFunc("/Hatboro", handleGetHatboro).Methods("GET")
+	router.HandleFunc("/Houston", handleGetHouston).Methods("GET")
+	router.HandleFunc("/Lehigh", handleGetLehigh).Methods("GET")
+	router.HandleFunc("/Montgomery", handleGetMontgomery).Methods("GET")
+	router.HandleFunc("/MountOlive", handleGetOlive).Methods("GET")
+	router.HandleFunc("/Seneca", handleGetSeneca).Methods("GET")
+	router.HandleFunc("/Springside", handleGetSpringside).Methods("GET")
+	router.HandleFunc("/WarrenHills", handleGetWarren).Methods("GET")
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
@@ -84,6 +100,8 @@ func StartServer() {
 }
 
 func handleOwl(writer http.ResponseWriter, request *http.Request) {
+
+	//Grab the Team number and part needed
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -102,6 +120,8 @@ func handleOwl(writer http.ResponseWriter, request *http.Request) {
 
 func handleAllentown(writer http.ResponseWriter, request *http.Request) {
 
+	//Grab the Team number and part needed
+
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
 
@@ -110,6 +130,7 @@ func handleAllentown(writer http.ResponseWriter, request *http.Request) {
 		return
 	}
 
+	//Write to the Database
 	ref := client.NewRef("/Allentown/" + part)
 	ref.Set(ctx, &tnum)
 
@@ -246,4 +267,148 @@ func handleWarren(writer http.ResponseWriter, request *http.Request) {
 
 	fmt.Println(tnum)
 	fmt.Println(part)
+}
+
+func handleGetOwl(writer http.ResponseWriter, request *http.Request) {
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Bensalem/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+
+}
+func handleGetAllentown(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Allentown/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleGetSeneca(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Seneca/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleGetSpringside(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Springside/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleGetLehigh(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Lehigh/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleGetHatboro(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Hatboro/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleGetHouston(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Houston/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+
+func handleGetMontgomery(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Montgomery/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+
+func handleGetOlive(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Mount Olive/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+
+func handleGetWarren(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Warren Hills/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
 }

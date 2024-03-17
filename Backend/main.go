@@ -95,7 +95,7 @@ func StartServer() {
 
 	//Delete parts that have been used.
 
-	router.HandleFunc("/Bensalem", handleDeleteOwl).Methods("GET")
+	router.HandleFunc("/Bensalem", handleDeleteOwl).Methods("DELETE")
 	router.HandleFunc("/Allentown", handleDeleteAllentown).Methods("DELETE")
 	router.HandleFunc("/Hatboro", handleDeleteHatboro).Methods("DELETE")
 	router.HandleFunc("/Houston", handleDeleteHouston).Methods("DELETE")

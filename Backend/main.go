@@ -82,7 +82,7 @@ func StartServer() {
 
 	//Functions used for Getting
 
-	router.HandleFunc("/Bensalem", handleGetOwl).Methods("GET")
+	router.HandleFunc("/Bensalem", handleGetOwl).Methods("PUT")
 	router.HandleFunc("/Allentown", handleGetAllentown).Methods("GET")
 	router.HandleFunc("/Hatboro", handleGetHatboro).Methods("GET")
 	router.HandleFunc("/Houston", handleGetHouston).Methods("GET")
@@ -92,6 +92,19 @@ func StartServer() {
 	router.HandleFunc("/Seneca", handleGetSeneca).Methods("GET")
 	router.HandleFunc("/Springside", handleGetSpringside).Methods("GET")
 	router.HandleFunc("/WarrenHills", handleGetWarren).Methods("GET")
+
+	//Delete parts that have been used.
+
+	router.HandleFunc("/Bensalem", handleDeleteOwl).Methods("GET")
+	router.HandleFunc("/Allentown", handleDeleteAllentown).Methods("DELETE")
+	router.HandleFunc("/Hatboro", handleDeleteHatboro).Methods("DELETE")
+	router.HandleFunc("/Houston", handleDeleteHouston).Methods("DELETE")
+	router.HandleFunc("/Lehigh", handleDeleteLehigh).Methods("DELETE")
+	router.HandleFunc("/Montgomery", handleDeleteMontgomery).Methods("DELETE")
+	router.HandleFunc("/MountOlive", handleDeleteOlive).Methods("DELETE")
+	router.HandleFunc("/Seneca", handleDeleteSeneca).Methods("DELETE")
+	router.HandleFunc("/Springside", handleDeleteSpringside).Methods("DELETE")
+	router.HandleFunc("/WarrenHills", handleDeleteWarren).Methods("DELETE")
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
@@ -267,6 +280,146 @@ func handleWarren(writer http.ResponseWriter, request *http.Request) {
 
 	fmt.Println(tnum)
 	fmt.Println(part)
+}
+
+func handleDeleteOwl(writer http.ResponseWriter, request *http.Request) {
+
+	part := request.FormValue("Part")
+
+	ref := client.NewRef("/Bensalem/" + part)
+	ref.Delete(ctx)
+
+	fmt.Println(part)
+
+}
+func handleDeleteAllentown(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Allentown/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleDeleteSeneca(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Seneca/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleDeleteSpringside(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Springside/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleDeleteLehigh(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Lehigh/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleDeleteHatboro(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Hatboro/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+func handleDeleteHouston(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Houston/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+
+func handleDeleteMontgomery(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Montgomery/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+
+func handleDeleteOlive(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Mount Olive/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
+}
+
+func handleDeleteWarren(writer http.ResponseWriter, request *http.Request) {
+
+	data := make(map[string]string)
+
+	ref := client.NewRef("/Warren Hills/")
+	ref.Get(ctx, &data)
+
+	for key, value := range data {
+		kvw := bytes.NewBufferString(key + ":" + value + "\n")
+		if _, err := kvw.WriteTo(writer); err != nil {
+			log.Fatal("Error: ", err)
+		}
+	}
 }
 
 func handleGetOwl(writer http.ResponseWriter, request *http.Request) {

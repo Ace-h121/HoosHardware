@@ -69,20 +69,20 @@ func StartServer() {
 
 	//Functions used for Putting data
 
-	router.HandleFunc("/Bensalem", handleOwl).Methods("PUT")
-	router.HandleFunc("/Allentown", handleAllentown).Methods("PUT")
-	router.HandleFunc("/Hatboro", handleHatboro).Methods("PUT")
-	router.HandleFunc("/Houston", handleHouston).Methods("PUT")
-	router.HandleFunc("/Lehigh", handleLehigh).Methods("PUT")
-	router.HandleFunc("/Montgomery", handleMontgomery).Methods("PUT")
-	router.HandleFunc("/MountOlive", handleOlive).Methods("PUT")
-	router.HandleFunc("/Seneca", handleSeneca).Methods("PUT")
-	router.HandleFunc("/Springside", handleSpringside).Methods("PUT")
-	router.HandleFunc("/WarrenHills", handleWarren).Methods("PUT")
+	router.HandleFunc("/Bensalem", handleOwl).Methods("POST")
+	router.HandleFunc("/Allentown", handleAllentown).Methods("POST")
+	router.HandleFunc("/Hatboro", handleHatboro).Methods("POST")
+	router.HandleFunc("/Houston", handleHouston).Methods("POST")
+	router.HandleFunc("/Lehigh", handleLehigh).Methods("POST")
+	router.HandleFunc("/Montgomery", handleMontgomery).Methods("POST")
+	router.HandleFunc("/MountOlive", handleOlive).Methods("POST")
+	router.HandleFunc("/Seneca", handleSeneca).Methods("POST")
+	router.HandleFunc("/Springside", handleSpringside).Methods("POST")
+	router.HandleFunc("/WarrenHills", handleWarren).Methods("POST")
 
 	//Functions used for Getting
 
-	router.HandleFunc("/Bensalem", handleGetOwl).Methods("PUT")
+	router.HandleFunc("/Bensalem", handleGetOwl).Methods("GET")
 	router.HandleFunc("/Allentown", handleGetAllentown).Methods("GET")
 	router.HandleFunc("/Hatboro", handleGetHatboro).Methods("GET")
 	router.HandleFunc("/Houston", handleGetHouston).Methods("GET")
@@ -95,16 +95,16 @@ func StartServer() {
 
 	//Delete parts that have been used.
 
-	router.HandleFunc("/Bensalem", handleDeleteOwl).Methods("DELETE")
-	router.HandleFunc("/Allentown", handleDeleteAllentown).Methods("DELETE")
-	router.HandleFunc("/Hatboro", handleDeleteHatboro).Methods("DELETE")
-	router.HandleFunc("/Houston", handleDeleteHouston).Methods("DELETE")
-	router.HandleFunc("/Lehigh", handleDeleteLehigh).Methods("DELETE")
-	router.HandleFunc("/Montgomery", handleDeleteMontgomery).Methods("DELETE")
-	router.HandleFunc("/MountOlive", handleDeleteOlive).Methods("DELETE")
-	router.HandleFunc("/Seneca", handleDeleteSeneca).Methods("DELETE")
-	router.HandleFunc("/Springside", handleDeleteSpringside).Methods("DELETE")
-	router.HandleFunc("/WarrenHills", handleDeleteWarren).Methods("DELETE")
+	router.HandleFunc("/BensalemRemove", handleDeleteOwl).Methods("POST")
+	router.HandleFunc("/AllentownRemove", handleDeleteAllentown).Methods("POST")
+	router.HandleFunc("/HatboroRemove", handleDeleteHatboro).Methods("POST")
+	router.HandleFunc("/HoustonRemove", handleDeleteHouston).Methods("POST")
+	router.HandleFunc("/LehighRemove", handleDeleteLehigh).Methods("POST")
+	router.HandleFunc("/MontgomeryRemove", handleDeleteMontgomery).Methods("POST")
+	router.HandleFunc("/MountOliveRemove", handleDeleteOlive).Methods("POST")
+	router.HandleFunc("/SenecaRemove", handleDeleteSeneca).Methods("POST")
+	router.HandleFunc("/SpringsideRemove", handleDeleteSpringside).Methods("POST")
+	router.HandleFunc("/WarrenHillsRemove", handleDeleteWarren).Methods("POST")
 
 	err := http.ListenAndServe(":8080", router)
 	if err != nil {
@@ -115,24 +115,32 @@ func StartServer() {
 func handleOwl(writer http.ResponseWriter, request *http.Request) {
 
 	//Grab the Team number and part needed
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
+	if request.Method == "OPTIONS" {
+		http.Error(writer, "No Content", http.StatusNoContent)
+		return
+	}
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
 
-	tnum, err := strconv.Atoi(num)
-	if err != nil {
-		return
-	}
-
 	ref := client.NewRef("/Bensalem/" + part)
 	ref.Set(ctx, &num)
 
-	fmt.Println(tnum)
-	fmt.Println(part)
+	writer.Write([]byte(num))
+	writer.Write([]byte(part))
+	fmt.Print("yo")
 }
 
 func handleAllentown(writer http.ResponseWriter, request *http.Request) {
-
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 	//Grab the Team number and part needed
 
 	num := request.FormValue("TeamNum")
@@ -151,6 +159,10 @@ func handleAllentown(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(part)
 }
 func handleSeneca(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -168,6 +180,11 @@ func handleSeneca(writer http.ResponseWriter, request *http.Request) {
 }
 func handleSpringside(writer http.ResponseWriter, request *http.Request) {
 
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
 
@@ -183,6 +200,10 @@ func handleSpringside(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(part)
 }
 func handleLehigh(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -199,6 +220,10 @@ func handleLehigh(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(part)
 }
 func handleHatboro(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -215,6 +240,10 @@ func handleHatboro(writer http.ResponseWriter, request *http.Request) {
 	fmt.Println(part)
 }
 func handleHouston(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -232,6 +261,10 @@ func handleHouston(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleMontgomery(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -249,6 +282,10 @@ func handleMontgomery(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleOlive(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -266,6 +303,10 @@ func handleOlive(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleWarren(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	num := request.FormValue("TeamNum")
 	part := request.FormValue("Part")
@@ -283,6 +324,12 @@ func handleWarren(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleDeleteOwl(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
+	writer.WriteHeader(http.StatusOK)
 
 	part := request.FormValue("Part")
 
@@ -293,133 +340,120 @@ func handleDeleteOwl(writer http.ResponseWriter, request *http.Request) {
 
 }
 func handleDeleteAllentown(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Allentown/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Allentown/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 func handleDeleteSeneca(writer http.ResponseWriter, request *http.Request) {
+	part := request.FormValue("Part")
+	writer.Header().Add("Access-Control-Allow-Origin", "http://127.0.0.1:5500")
 
-	data := make(map[string]string)
+	ref := client.NewRef("/Seneca/" + part)
+	ref.Delete(ctx)
 
-	ref := client.NewRef("/Seneca/")
-	ref.Get(ctx, &data)
-
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 func handleDeleteSpringside(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Springside/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Springside/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 func handleDeleteLehigh(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Lehigh/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Lehigh/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 func handleDeleteHatboro(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Hatboro/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Hatboro/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 func handleDeleteHouston(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Houston/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Houston/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 
 func handleDeleteMontgomery(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Montgomery/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Montgomery/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 
 func handleDeleteOlive(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Mount Olive/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Mount Olive/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 
 func handleDeleteWarren(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
-	data := make(map[string]string)
+	part := request.FormValue("Part")
 
-	ref := client.NewRef("/Warren Hills/")
-	ref.Get(ctx, &data)
+	ref := client.NewRef("/Warren Hills/" + part)
+	ref.Delete(ctx)
 
-	for key, value := range data {
-		kvw := bytes.NewBufferString(key + ":" + value + "\n")
-		if _, err := kvw.WriteTo(writer); err != nil {
-			log.Fatal("Error: ", err)
-		}
-	}
+	fmt.Println(part)
 }
 
 func handleGetOwl(writer http.ResponseWriter, request *http.Request) {
@@ -427,6 +461,16 @@ func handleGetOwl(writer http.ResponseWriter, request *http.Request) {
 
 	ref := client.NewRef("/Bensalem/")
 	ref.Get(ctx, &data)
+
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+
+	if request.Method == "OPTIONS" {
+		http.Error(writer, "No Content", http.StatusNoContent)
+		return
+	}
 
 	for key, value := range data {
 		kvw := bytes.NewBufferString(key + ":" + value + "\n")
@@ -437,6 +481,10 @@ func handleGetOwl(writer http.ResponseWriter, request *http.Request) {
 
 }
 func handleGetAllentown(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -451,6 +499,10 @@ func handleGetAllentown(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 func handleGetSeneca(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -465,6 +517,10 @@ func handleGetSeneca(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 func handleGetSpringside(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -479,6 +535,10 @@ func handleGetSpringside(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 func handleGetLehigh(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -493,6 +553,10 @@ func handleGetLehigh(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 func handleGetHatboro(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -507,6 +571,10 @@ func handleGetHatboro(writer http.ResponseWriter, request *http.Request) {
 	}
 }
 func handleGetHouston(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -522,6 +590,10 @@ func handleGetHouston(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleGetMontgomery(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -537,6 +609,10 @@ func handleGetMontgomery(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleGetOlive(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 
@@ -552,6 +628,10 @@ func handleGetOlive(writer http.ResponseWriter, request *http.Request) {
 }
 
 func handleGetWarren(writer http.ResponseWriter, request *http.Request) {
+	writer.Header().Add("Access-Control-Allow-Origin", "*")
+	writer.Header().Add("Access-Control-Allow-Credentials", "true")
+	writer.Header().Add("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
+	writer.Header().Add("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
 
 	data := make(map[string]string)
 

@@ -9,7 +9,6 @@ async function putTeam() {
     let woo = document.getElementById('putPart').value
 
     let event = await getEvent()
-    alert("http://127.0.0.1:8080/"+ "Bensalem" + "?Part=" +woo+ "&TeamNum=" +va)
     if (!(woo == "")){
         const res = await fetch("http://127.0.0.1:8080/"+ event +"?Part=" +woo+ "&TeamNum=" +va, {
             method: 'POST',
@@ -43,7 +42,6 @@ async function delTeam() {
 async function getEvent(){
     
     let team = document.getElementById('Events').value;
-    alert(team)
     return team
 }
 
@@ -57,5 +55,5 @@ async function getParts(){
         })
         const text = await res.text()
         console.log(text)
-        document.getElementById("list").value = text
+        document.getElementById("list").innerHTML = text
 }

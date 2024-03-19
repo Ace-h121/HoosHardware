@@ -3,28 +3,46 @@
  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Document</title> 
+   <link rel="stylesheet" href="index.css">
  </head>
  
  <body>
+   <label for="Events">Event details: </label>
+   <select name="Events" id="Events">
+      <option value="Allentown">Allentown</option>
+      <option value="Hatboro">Hatboro</option>
+      <option value="Houston">Houston</option>
+      <option value="Lehigh">Lehigh</option>
+      <option value="Montgomery", onclick="getParts()">Montgomery</option>
+      <option value="Mount Olive">Mount Olive</option>
+      <option value="Seneca">Seneca</option>
+      <option value="Springside">Springside</option>
+      <option value="Warren Hills">Warren Hills</option>
+      <option value="Bensalem">Bensalem</option>
+
+
+      // ...
+   </select>
+   
       <div>
          <p>Team Num</p>
          <input type="text" id="putTeam" name="TeamNum" title="wo">
          <p> Part name</p>
          <input type="text" id="putPart" name = "PartName">
          <li></li>
-         <input type="button" onclick="putTeam()">
+         <input type="button" onclick="putTeam()" value="Submit Part">
       </div>
 
       <div>
          <p> Part name</p>
          <input type="text" id="delPart" name = "PartNameDel">
          <li></li>
-         <input type="button" onclick="delTeam()">
-      </div>
-        
-        
+         <input type="button" onclick="delTeam()" value="Delete Part">
+      </div>   
 
-        <script src="index.js" crossorigin="anonymous"> </script>
+      <div id="list"></div>
+        
+      <script src="index.js" crossorigin="anonymous"> </script>
  </body>
  </html>
